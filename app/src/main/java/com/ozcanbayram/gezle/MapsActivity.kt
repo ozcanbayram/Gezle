@@ -1,10 +1,17 @@
 package com.ozcanbayram.gezle
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -12,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -23,6 +31,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationManager : LocationManager
     private lateinit var locationListener : LocationListener
 
+    //For give permission:
+    private lateinit var permissionLauncher : ActivityResultLauncher<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,6 +44,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        registerLauncehr()
+
     }
     override fun onMapReady(googleMap: GoogleMap) { //Harita hazı olduğunda çalışacak metot.
         mMap = googleMap
@@ -42,15 +56,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager//Casting işlemi (as LocationManager ile döndürülecek şeyden emin olduğumuzu belirttik.
         //locationListener kullanma
         locationListener = object : LocationListener { //Oluşturulan obje üzerinden işlemler yapılır. gerekli ögeler iplement edilmelidir.
-            override fun onLocationChanged(p0: Location) { //Konum değiştiği zaman bize verilecek p0(içerisinde Location tutan parametre)
+            override fun onLocationChanged(location: Location) { //Konum değiştiği zaman bize verilecek location(içerisinde Location tutan parametre)
                 //Bu metodu tanımladıktan sonra kullanabilmek için kullanıcıdan konum izni almalıyız.
+                //Need Permission
+                println("User Location: " + location.toString())
             }
-
-
-
-
-
-
 
 
 
@@ -64,15 +74,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-        //Konum güncellemelerini alalım:
-        //Kod amaçları: [locationManager: tanımlanan konum yöneticisini çağır].[requestLocationUpdate: Konum güncellemelerini al]([LocationManager:
-        // konum yöneticisi sınıfı ile provider'i bellirt. yani konumu hangi sağlayıcıyla alacağını belirt].[GPS_PROVIDER:Konumu GPS sağlayıcısından al]
-        // kaç saniyede bir  konum güncellemesini alacağını milisaniy cinsinden belirt, kaç metreede bir alınacağını float cinsinden belirt.,
-        // [locationListener: buradan gelen verileri global tanımlı konum dinleyicisine ata(Yuakrıda kullanılan locationListener)])
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1f,locationListener) //needing location permission
+        //İzin Kontrol: Check Permission:
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            //Permission Denied (Request permission)
+            //Kullanıcıdan izin alınmalıdır. Neden izin istediğimizi söylemeli ve izni istemeliyiz.
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                Snackbar.make(binding.root,"Permission needed for location and use the GEZLE application",Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Give Permission"){
+                        //Request Permission   (izin istemek için ActivityResultLauncher kullanılır)
+                        //İzin istemek için aşağıda oluşturduğumuz permissionlauncher'i kullanırız:
+                        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                    }.show()
+            }else{
+                //Request Permission
+                //Request Permission   (izin istemek için ActivityResultLauncher kullanılır)
+                //İzin istemek için aşağıda oluşturduğumuz permissionlauncher'i kullanırız:
+                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }else{
+            //Permission Granted
 
-
-
+            //Konum güncellemelerini alalım:
+            //Kod amaçları: [locationManager: tanımlanan konum yöneticisini çağır].[requestLocationUpdate: Konum güncellemelerini al]([LocationManager:
+            // konum yöneticisi sınıfı ile provider'i bellirt. yani konumu hangi sağlayıcıyla alacağını belirt].[GPS_PROVIDER:Konumu GPS sağlayıcısından al]
+            // kaç saniyede bir  konum güncellemesini alacağını milisaniy cinsinden belirt, kaç metreede bir alınacağını float cinsinden belirt.,
+            // [locationListener: buradan gelen verileri global tanımlı konum dinleyicisine ata(Yuakrıda kullanılan locationListener)]) -->
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0f,locationListener) //needing location permission
+        }
 
 
 
@@ -87,4 +115,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eiffel,15f)) //For move the maps camera and zoom
         */
     }
+
+
+    private fun registerLauncehr(){ //Bu fonksiyon onCreate altında kesinlikle çağrılmalıdır. İzin isteme işlemi burada ve yukarıda tanımlanan
+                                    //private lateinit var permissionLauncher : ActivityResultLauncher<String>  ile gerçekleştirilir.
+        //permissionLauncher'in ne olacağını tanımlayalım:
+        //'registerForActivityResult()' hazır metodu kullanılır ve bu metodun içerisinde ne yapacağımız belirtilir. İsteiğimiz işlemi sınıf olarak yazabiliriz.
+        //Örneğin RequestPermission()
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){result ->  //Burada result boolean bir değerdir.
+            //resulttan gelen boolean değeri true/false olarak kontrol edilir.
+            if (result == true){
+                //Konum iznini tekarar kontrol edelim ve izin verildiyse konum güncellemelerini tekrardan alalım.
+                if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                    //Permission Granted
+                    //Burada izin verilmiştir ve tekrardan konum güncellemesini almaya hazırız demektir.
+                    //Konum güncellemelerini alalım:
+                    //Kod amaçları: [locationManager: tanımlanan konum yöneticisini çağır].[requestLocationUpdate: Konum güncellemelerini al]([LocationManager:
+                    // konum yöneticisi sınıfı ile provider'i bellirt. yani konumu hangi sağlayıcıyla alacağını belirt].[GPS_PROVIDER:Konumu GPS sağlayıcısından al]
+                    // kaç saniyede bir  konum güncellemesini alacağını milisaniy cinsinden belirt, kaç metreede bir alınacağını float cinsinden belirt.,
+                    // [locationListener: buradan gelen verileri global tanımlı konum dinleyicisine ata(Yuakrıda kullanılan locationListener)]) -->
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1f,locationListener) //needing location permission
+                }
+
+            }else{
+                //Permission Denied
+                Toast.makeText(this@MapsActivity,"Permission needed for use your location and Gezle application", Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
+
+
+
 }
