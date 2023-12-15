@@ -8,11 +8,9 @@
 
     <LinearLayout
         android:id="@+id/recyclerViewRowView"
-        android:background="#00E1EF"
-        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="8dp"
+        android:background="#00E1EF"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,5 +33,24 @@
             android:text="TextView"
             android:textSize="25sp" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="362dp"
+        android:layout_marginTop="417dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#00E1EF"
+        android:foregroundGravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewRowView"
+
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

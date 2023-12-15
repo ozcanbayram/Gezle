@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity" />
+    android:layout_height="match_parent">
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        map:layout_constraintBottom_toTopOf="@+id/view"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="1.0"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="1.0"
+        tools:context=".MapsActivity" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="418dp"
+        android:layout_height="173dp"
+        android:background="#00E1EF"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="1.0"
+        map:layout_constraintStart_toStartOf="parent"></View>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Konum seçmek için basılı tut."
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.497"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/map" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="301dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#fff"
+        android:ems="10"
+
+        android:gravity="center"
+        android:hint="Yer ismi"
+        android:inputType="text"
+        map:layout_constraintEnd_toStartOf="@+id/imageButton3"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.954"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/textView4"
+        map:srcCompat="@android:drawable/ic_menu_send"
+        android:foregroundGravity="center"
+        android:background="#fff"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
