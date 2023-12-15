@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -41,6 +41,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     //onLocationChanged 1 kez çalrılması için:
     private var trackBoolean : Boolean? = null
 
+    //Uzun tıklanarak seçilen enlem ve boylamı kaydetmek için değişken oluşturmak:
+    private var selectedLatitude : Double? = null
+    private var selectedLongitude : Double? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,10 +60,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         sharedPrefereneces = this.getSharedPreferences("com.ozcanbayram.gezle", MODE_PRIVATE)
         trackBoolean = false
+        selectedLatitude=0.0
+        selectedLongitude=0.0
+
 
     }
     override fun onMapReady(googleMap: GoogleMap) { //Harita hazı olduğunda çalışacak metot.
         mMap = googleMap
+        mMap.setOnMapLongClickListener(this) //Harita ile uzun tıklama OnMapLongClickListener arasındaki bağlantı.
 
 
         //LocationManager tanımlama. getSystemService ile androidin sistem servislerine ulaşabiliriz.
@@ -180,6 +188,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    override fun onMapLongClick(p0: LatLng) {  //Yukarıda eklenen GoogleMap.OnMapLongClickListener eklentisi
+        mMap.clear() //önceden eklenen markerları vb.. temizle
+        mMap.addMarker(MarkerOptions().position(p0)) //Uzun tıklanan yere marker ekle
+
+        //Global tanımlı olan değişkenlere uzun tıklayarak kaydetmek istediğimiz konumun enlem boylamını verelim:
+        selectedLatitude = p0.latitude
+        selectedLongitude = p0.longitude
+    }
 
 
 }
