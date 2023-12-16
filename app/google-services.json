@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "246425440978",
+    "project_id": "gezle-df8f9",
+    "storage_bucket": "gezle-df8f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246425440978:android:3ac1081bc4f5d9f25b930b",
+        "android_client_info": {
+          "package_name": "com.ozcanbayram.gezle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEuJXY6xw_7riHbOU6Owyyrj806AtK-RI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
