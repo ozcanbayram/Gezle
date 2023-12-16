@@ -45,7 +45,7 @@
         map:layout_constraintTop_toBottomOf="@+id/map" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/yer_ismi"
         android:layout_width="265dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -56,12 +56,12 @@
         android:gravity="center"
         android:hint="Yer ismi"
         android:inputType="text"
-        map:layout_constraintEnd_toStartOf="@+id/imageButton3"
+        map:layout_constraintEnd_toStartOf="@+id/ilerle"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/ilerle"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -69,10 +69,11 @@
         android:layout_marginEnd="8dp"
         android:background="#00E1EF"
         android:foregroundGravity="center"
+        android:onClick="ilerle"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintHorizontal_bias="0.954"
-        map:layout_constraintStart_toStartOf="parent"
 
+        map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toBottomOf="@+id/textView4"
         map:srcCompat="@android:drawable/ic_menu_send" />
 
