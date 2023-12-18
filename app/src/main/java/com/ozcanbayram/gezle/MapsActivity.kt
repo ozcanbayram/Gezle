@@ -9,6 +9,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -68,14 +69,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
 
         binding.ilerle.setOnClickListener {
             val intent = Intent(this,Details::class.java)
+            intent.putExtra("place_name",binding.yerIsmi.text.toString()) //Girilen yer ismini detaylar sayfasına göndermek.
             startActivity(intent)
         }
 
     }
-
-
-
-
 
     override fun onMapReady(googleMap: GoogleMap) { //Harita hazı olduğunda çalışacak metot.
         mMap = googleMap

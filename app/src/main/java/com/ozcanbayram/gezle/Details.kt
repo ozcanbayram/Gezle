@@ -1,5 +1,6 @@
 package com.ozcanbayram.gezle
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ozcanbayram.gezle.databinding.ActivityDetailsBinding
@@ -12,5 +13,11 @@ class Details : AppCompatActivity() {
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        //MapsActivity'den gelen yer ismini textView5 e yazdırmak:
+        val intentForPlaceName = intent
+        val place_name =intentForPlaceName.getStringExtra("place_name")
+        binding.textView5   .text = place_name.toString()
+
     }
 }
