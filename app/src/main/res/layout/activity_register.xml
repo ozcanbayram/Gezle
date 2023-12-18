@@ -94,7 +94,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="88dp"
         android:backgroundTint="#00E1EF"
-        android:onClick="kaydol"
+        android:onClick="register"
         android:text="KAYDOL"
         android:textColor="#000"
         android:textFontWeight="@integer/material_motion_duration_long_2"
