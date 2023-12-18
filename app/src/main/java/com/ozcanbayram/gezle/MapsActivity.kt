@@ -1,6 +1,7 @@
 package com.ozcanbayram.gezle
 
 import android.Manifest
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
+import com.ozcanbayram.gezle.databinding.ActivityWelcomeBinding
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
@@ -47,9 +49,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMapsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val view = binding.root
+        setContentView(view)
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -63,8 +66,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         selectedLatitude=0.0
         selectedLongitude=0.0
 
+        binding.ilerle.setOnClickListener {
+            val intent = Intent(this,Details::class.java)
+            startActivity(intent)
+        }
 
     }
+
+
+
+
+
     override fun onMapReady(googleMap: GoogleMap) { //Harita hazı olduğunda çalışacak metot.
         mMap = googleMap
         mMap.setOnMapLongClickListener(this) //Harita ile uzun tıklama OnMapLongClickListener arasındaki bağlantı.

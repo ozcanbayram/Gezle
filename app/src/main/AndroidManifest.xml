@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Gezle"
         tools:targetApi="31">
         <activity
+            android:name=".Details"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity
