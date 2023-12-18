@@ -3,6 +3,7 @@ package com.ozcanbayram.gezle
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.ozcanbayram.gezle.databinding.ActivityDetailsBinding
 import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
 
@@ -20,4 +21,13 @@ class Details : AppCompatActivity() {
         binding.textView5   .text = place_name.toString()
 
     }
+
+    fun select_image(view : View){
+
+    }
+
+    fun share(view : View){
+
+    }
+
 }

@@ -29,6 +29,7 @@
         android:id="@+id/imageView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="select_image"
         app:layout_constraintEnd_toEndOf="@+id/view2"
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
@@ -54,8 +55,8 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:backgroundTint="#00E1EF"
-        android:onClick="gezle"
-        android:text="GEZLE"
+        android:onClick="share"
+        android:text="PAYLAŞ"
 
         android:textColor="#000"
         android:textFontWeight="@integer/material_motion_duration_long_2"
