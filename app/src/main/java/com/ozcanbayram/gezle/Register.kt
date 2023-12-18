@@ -29,13 +29,19 @@ class Register : AppCompatActivity() {
     fun register(view : View){
         val email  = binding.email.text.toString()
         val password = binding.pasword.text.toString()
+        val password_control = binding.pasword2.text.toString()
         val ad_soyad = binding.adSoyad.text.toString()
 
         if(email.equals("") || password.equals("")){
             Toast.makeText(this,"Lütfen E-posta ve Şifre bilgilerinizi giriniz.",Toast.LENGTH_LONG).show()
-        }else{
+        }
+        else if (password != password_control){
+            Toast.makeText(this,"Parolalar eşleşmiyor.",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            //Successfull
             auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener {
-                //Successfull
+
                 val intent = Intent(this@Register,Login::class.java)
                 Toast.makeText(this@Register,"Harika! Gezlemek için giriş yapabilirsin.",Toast.LENGTH_LONG).show()
                 startActivity(intent)
@@ -44,8 +50,6 @@ class Register : AppCompatActivity() {
                 //Fail
                 Toast.makeText(this@Register,it.localizedMessage,Toast.LENGTH_LONG).show() //Başarısız olursa mesaj göster
             }
-
-
         }
 
 
