@@ -17,7 +17,6 @@ class FirstActivity : AppCompatActivity() {
         binding.gezle.setOnClickListener {
             val intent = Intent(this,Welcome::class.java)
             startActivity(intent)
-            finish()
         }
     }
 }

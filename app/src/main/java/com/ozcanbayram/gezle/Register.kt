@@ -32,10 +32,10 @@ class Register : AppCompatActivity() {
         val password_control = binding.pasword2.text.toString()
         val ad_soyad = binding.adSoyad.text.toString()
 
-        if(email.equals("") || password.equals("")){
+        if(email.equals("") || password.equals("")){ //Boş bilgi kontrolü
             Toast.makeText(this,"Lütfen E-posta ve Şifre bilgilerinizi giriniz.",Toast.LENGTH_LONG).show()
         }
-        else if (password != password_control){
+        else if (password != password_control){ //Parola tekrar kontrolü
             Toast.makeText(this,"Parolalar eşleşmiyor.",Toast.LENGTH_SHORT).show()
         }
         else{

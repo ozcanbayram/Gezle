@@ -16,13 +16,11 @@ class Welcome : AppCompatActivity() {
         binding.kaydol.setOnClickListener {
             val intent = Intent(this,Register::class.java)
             startActivity(intent)
-            finish()
         }
 
         binding.giris.setOnClickListener {
             val intent = Intent(this,Login::class.java)
             startActivity(intent)
-            finish()
         }
 
     }

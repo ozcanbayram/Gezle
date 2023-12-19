@@ -35,7 +35,7 @@
             android:background="#fff"
             android:ems="10"
             android:gravity="center"
-            android:hint="Ad Soyad"
+            android:hint="E-posta"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="@+id/view2"
             app:layout_constraintHorizontal_bias="0.494"
