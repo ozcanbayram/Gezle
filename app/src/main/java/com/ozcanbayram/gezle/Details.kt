@@ -157,6 +157,7 @@ class Details : AppCompatActivity() {
                         postMap.put("downloadUrl",downloadUrl)
                         postMap.put("emial",auth.currentUser!!.email!!)
                         //buraya isim soyisim de eklenecek ****
+                        postMap.put("ad_soyad",auth.currentUser!!.displayName.toString())
                         postMap.put("comment",binding.aciklama.text.toString())
                         postMap.put("latitudeInfo",latitudeInfo.toString())
                         postMap.put("longitudeInfo",longitudeInfo.toString())

@@ -34,7 +34,7 @@ class Login : AppCompatActivity() {
         }else{
             auth.signInWithEmailAndPassword(email,password).addOnSuccessListener {
                 val intent = Intent(this@Login,MainActivity::class.java)
-                Toast.makeText(this@Login,"Giriş başarılı.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Login,"Giriş başarılı. Hoşgeldin ${auth.currentUser!!.displayName.toString()}",Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 finish()
             }.addOnFailureListener {
