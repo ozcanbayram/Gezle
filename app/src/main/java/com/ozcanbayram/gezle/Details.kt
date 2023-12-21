@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -138,10 +139,33 @@ class Details : AppCompatActivity() {
 
         if(selectedPicture != null){
             imageReferance.putFile(selectedPicture!!).addOnSuccessListener {
-                //Download Url -> Firestore
+                //Download Url -> Firestore (Burada paylaşım yapan kişinin verilreini Firestore'a ekleriz.)
+
+                val uploadPictureReferance = storage.reference.child("images").child(imageName) //Yüklenen fotoğrafı indirmek için bir referans.
+                uploadPictureReferance.downloadUrl.addOnSuccessListener {
+                    val downloadUrl = it.toString() //image'i indirdi ve stringe çevirdi
+                    if(auth.currentUser != null){
+                        val postMap = HashMap<String, Any>() //Post bilgilerini bir hashmap içinde tutalım.
+                        postMap.put("downloadUrl",downloadUrl)
+                        postMap.put("emial",auth.currentUser!!.email!!)
+                        //buraya isim soyisim de eklenecek ****
+                        postMap.put("comment",binding.aciklama.text.toString())
+                        postMap.put("time",Timestamp.now())
+
+                        //verileri aldık ve şimdi veritananına koyalım:
+
+                        firestore.collection("Posts").add(postMap).addOnSuccessListener {
+
+                            finish()
+
+                        }.addOnFailureListener {
+                            Toast.makeText(this@Details,it.localizedMessage,Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
 
             }.addOnFailureListener {
-                Toast.makeText(this,it.localizedMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(this@Details,it.localizedMessage,Toast.LENGTH_LONG).show()
             }
         }
 
