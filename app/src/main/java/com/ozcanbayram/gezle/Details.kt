@@ -38,6 +38,10 @@ class Details : AppCompatActivity() {
     private lateinit var firestore : FirebaseFirestore
     private lateinit var storage : FirebaseStorage
 
+    //For take latitude and longitude from DetailsActivity
+    var latitudeInfo : String? = null
+    var longitudeInfo : String? = null
+
     var selectedPicture : Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +51,12 @@ class Details : AppCompatActivity() {
 
         //MapsActivity'den gelen yer ismini textView5 e yazdırmak:
         val intentForPlaceName = intent
+        val intentForLatitude = intent
+        val intentForLongitude = intent
         val place_name =intentForPlaceName.getStringExtra("place_name")
-        binding.textView5   .text = place_name.toString()
+        latitudeInfo = intentForLatitude.getStringExtra("enlem")
+        longitudeInfo = intentForLongitude.getStringExtra("boylam")
+        binding.textView5.text = place_name.toString()
 
         registerLauncher()
 
@@ -150,6 +158,8 @@ class Details : AppCompatActivity() {
                         postMap.put("emial",auth.currentUser!!.email!!)
                         //buraya isim soyisim de eklenecek ****
                         postMap.put("comment",binding.aciklama.text.toString())
+                        postMap.put("latitudeInfo",latitudeInfo.toString())
+                        postMap.put("longitudeInfo",longitudeInfo.toString())
                         postMap.put("time",Timestamp.now())
 
                         //verileri aldık ve şimdi veritananına koyalım:

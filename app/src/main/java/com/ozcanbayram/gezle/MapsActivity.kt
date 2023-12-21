@@ -70,6 +70,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         binding.ilerle.setOnClickListener {
             val intent = Intent(this,Details::class.java)
             intent.putExtra("place_name",binding.yerIsmi.text.toString()) //Girilen yer ismini detaylar sayfasına göndermek.
+            intent.putExtra("enlem",selectedLatitude.toString())
+            intent.putExtra("boylam",selectedLongitude.toString())
             startActivity(intent)
         }
 
