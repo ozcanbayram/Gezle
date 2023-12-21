@@ -41,7 +41,6 @@ class Details : AppCompatActivity() {
 
     fun select_image(view : View){
 
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
 
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED){
@@ -81,13 +80,6 @@ class Details : AppCompatActivity() {
             }
         }
 
-
-
-
-    }
-
-    fun share(view : View){
-
     }
     private fun registerLauncher(){
 
@@ -114,4 +106,10 @@ class Details : AppCompatActivity() {
             }
         }
     }
+
+
+    fun share(view : View){
+
+    }
+
 }
