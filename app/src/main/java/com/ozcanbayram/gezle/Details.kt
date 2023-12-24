@@ -41,6 +41,7 @@ class Details : AppCompatActivity() {
     //For take latitude and longitude from DetailsActivity
     var latitudeInfo : String? = null
     var longitudeInfo : String? = null
+    var placeName : String? = null
 
     var selectedPicture : Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +58,7 @@ class Details : AppCompatActivity() {
         latitudeInfo = intentForLatitude.getStringExtra("enlem")
         longitudeInfo = intentForLongitude.getStringExtra("boylam")
         binding.textView5.text = place_name.toString()
+        placeName = intentForPlaceName.getStringExtra("place_name")
 
         registerLauncher()
 
@@ -155,12 +157,13 @@ class Details : AppCompatActivity() {
                     if(auth.currentUser != null){
                         val postMap = HashMap<String, Any>() //Post bilgilerini bir hashmap içinde tutalım.
                         postMap.put("downloadUrl",downloadUrl)
-                        postMap.put("emial",auth.currentUser!!.email!!)
+                        postMap.put("email",auth.currentUser!!.email!!)
                         //buraya isim soyisim de eklenecek ****
                         postMap.put("ad_soyad",auth.currentUser!!.displayName.toString())
                         postMap.put("comment",binding.aciklama.text.toString())
                         postMap.put("latitudeInfo",latitudeInfo.toString())
                         postMap.put("longitudeInfo",longitudeInfo.toString())
+                        postMap.put("place_name",placeName.toString())
                         postMap.put("time",Timestamp.now())
 
                         //verileri aldık ve şimdi veritananına koyalım:
