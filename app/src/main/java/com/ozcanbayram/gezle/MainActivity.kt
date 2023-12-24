@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.ozcanbayram.gezle.databinding.ActivityMainBinding
 import com.google.firebase.Firebase
@@ -40,8 +41,12 @@ class MainActivity : AppCompatActivity() {
 
         getData()
 
-    }
+        binding.imageButton.setOnClickListener {
+            val intent = Intent(this,MapsActivity::class.java)
+            startActivity(intent)
+        }
 
+    }
     private fun getData(){
         db.collection("Posts").addSnapshotListener { value, error ->
             if(error != null){
@@ -81,7 +86,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean { //Menunyu aktiviteyle bagla
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.place_menu,menu)
