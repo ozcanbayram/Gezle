@@ -35,6 +35,7 @@ class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView
         holder.binding.showLocation.setOnClickListener {
 
             val intentForGoLocationsDetails = Intent(holder.itemView.context, MapsActivity::class.java)
+            intentForGoLocationsDetails.putExtra("info","old")
             holder.itemView.context.startActivity(intentForGoLocationsDetails)
         }
     }

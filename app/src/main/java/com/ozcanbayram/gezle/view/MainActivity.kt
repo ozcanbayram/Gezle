@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean { //Menuden eleman secilirse ne olacak
         if(item.itemId == R.id.add_place){
             val intent = Intent(this, MapsActivity::class.java)
+            intent.putExtra("info","new")
             startActivity(intent)
         }
         if(item.itemId == R.id.sign_out){

@@ -9,6 +9,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -72,6 +73,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
             intent.putExtra("enlem",selectedLatitude.toString())
             intent.putExtra("boylam",selectedLongitude.toString())
             startActivity(intent)
+        }
+
+        val intetn = intent
+        val info = intent.getStringExtra("info")
+        if(info.equals("new")){
+            //New post / coming from MainActivity
+        }else{
+            //Old post /coming from anyPostsButton (showLocation)
+            binding.ilerle.visibility = View.GONE
+            binding.yerIsmi.visibility = View.GONE
+            // Yer ismini yazdır --> binding.textView4.text=
+            //Go to location and add a marker
         }
 
     }
