@@ -24,11 +24,11 @@ class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: MainRecyclerHolder, position: Int) {
-        Picasso.get().load(postList.get(position).downloadUrl).into(holder.binding.imageView4)
-        holder.binding.textView7.text = postList.get(position).ad_soyad
-        holder.binding.textView.text = postList.get(position).place_name
-        holder.binding.textView8.text = postList.get(position).comment
-        holder.binding.textView6.text = postList.get(position).email
+        Picasso.get().load(postList.get(position).downloadUrl).into(holder.binding.photo)
+        holder.binding.name.text = postList.get(position).ad_soyad
+        holder.binding.place.text = postList.get(position).place_name
+        holder.binding.comment.text = postList.get(position).comment
+        holder.binding.email.text = postList.get(position).email
     }
 
 }
