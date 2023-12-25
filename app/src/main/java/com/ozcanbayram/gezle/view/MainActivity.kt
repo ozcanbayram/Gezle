@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ozcanbayram.gezle.databinding.ActivityMainBinding
@@ -97,6 +98,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun show_location(view : View){
+
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean { //Menunyu aktiviteyle bagla
         val menuInflater = menuInflater

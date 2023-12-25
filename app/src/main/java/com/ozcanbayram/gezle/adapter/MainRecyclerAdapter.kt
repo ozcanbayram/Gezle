@@ -29,6 +29,10 @@ class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView
         holder.binding.place.text = postList.get(position).place_name
         holder.binding.comment.text = postList.get(position).comment
         holder.binding.email.text = postList.get(position).email
+
+        holder.binding.showLocation.setOnClickListener {
+
+        }
     }
 
 }
