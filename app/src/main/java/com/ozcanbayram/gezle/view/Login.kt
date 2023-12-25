@@ -1,4 +1,4 @@
-package com.ozcanbayram.gezle
+package com.ozcanbayram.gezle.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,6 @@ import com.ozcanbayram.gezle.databinding.ActivityLoginBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.ozcanbayram.gezle.databinding.ActivityWelcomeBinding
 
 class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -33,7 +32,7 @@ class Login : AppCompatActivity() {
             Toast.makeText(this,"Lütfen E-posta ve Şifre bilgilerinizi giriniz.",Toast.LENGTH_LONG).show()
         }else{
             auth.signInWithEmailAndPassword(email,password).addOnSuccessListener {
-                val intent = Intent(this@Login,MainActivity::class.java)
+                val intent = Intent(this@Login, MainActivity::class.java)
                 Toast.makeText(this@Login,"Giriş başarılı. Hoşgeldin ${auth.currentUser!!.displayName.toString()}",Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 finish()

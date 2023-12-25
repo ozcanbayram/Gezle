@@ -1,4 +1,4 @@
-package com.ozcanbayram.gezle
+package com.ozcanbayram.gezle.view
 
 import android.Manifest
 import android.content.Intent
@@ -24,7 +24,6 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.ozcanbayram.gezle.databinding.ActivityDetailsBinding
-import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
 import java.util.UUID
 
 class Details : AppCompatActivity() {

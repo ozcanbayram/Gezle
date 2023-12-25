@@ -1,4 +1,4 @@
-package com.ozcanbayram.gezle
+package com.ozcanbayram.gezle.view
 
 import android.Manifest
 import android.content.Intent
@@ -9,7 +9,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,8 +22,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import com.ozcanbayram.gezle.R
 import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
-import com.ozcanbayram.gezle.databinding.ActivityWelcomeBinding
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener {
 
@@ -68,7 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         selectedLongitude=0.0
 
         binding.ilerle.setOnClickListener {
-            val intent = Intent(this,Details::class.java)
+            val intent = Intent(this, Details::class.java)
             intent.putExtra("place_name",binding.yerIsmi.text.toString()) //Girilen yer ismini detaylar sayfasına göndermek.
             intent.putExtra("enlem",selectedLatitude.toString())
             intent.putExtra("boylam",selectedLongitude.toString())

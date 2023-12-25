@@ -1,4 +1,4 @@
-package com.ozcanbayram.gezle
+package com.ozcanbayram.gezle.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +14,12 @@ class Welcome : AppCompatActivity() {
         setContentView(view)
 
         binding.kaydol.setOnClickListener {
-            val intent = Intent(this,Register::class.java)
+            val intent = Intent(this, Register::class.java)
             startActivity(intent)
         }
 
         binding.giris.setOnClickListener {
-            val intent = Intent(this,Login::class.java)
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
         }
 

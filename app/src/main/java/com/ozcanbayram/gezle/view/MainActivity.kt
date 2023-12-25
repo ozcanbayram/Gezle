@@ -1,22 +1,21 @@
-package com.ozcanbayram.gezle
+package com.ozcanbayram.gezle.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ozcanbayram.gezle.databinding.ActivityMainBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
-import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
+import com.ozcanbayram.gezle.R
+import com.ozcanbayram.gezle.adapter.MainRecyclerAdapter
 import com.ozcanbayram.gezle.model.Post
-import java.sql.Time
-import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db : FirebaseFirestore
 
     private lateinit var postArrayList : ArrayList<Post>
+
+    //For Adapter
+    private lateinit var mainRecyclerAdapter : MainRecyclerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,9 +44,13 @@ class MainActivity : AppCompatActivity() {
         getData()
 
         binding.imageButton.setOnClickListener {
-            val intent = Intent(this,MapsActivity::class.java)
+            val intent = Intent(this, MapsActivity::class.java)
             startActivity(intent)
         }
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        mainRecyclerAdapter = MainRecyclerAdapter(postArrayList)
+        binding.recyclerView.adapter = mainRecyclerAdapter
 
     }
     private fun getData(){
@@ -81,6 +87,8 @@ class MainActivity : AppCompatActivity() {
 
                         }
 
+                        mainRecyclerAdapter.notifyDataSetChanged() //Veriler güncellendi ve yenilen anlamına gelir.
+
                     }
                 }
             }
@@ -98,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         }
         if(item.itemId == R.id.sign_out){
             auth.signOut()
-            val intent = Intent(this,FirstActivity::class.java)
+            val intent = Intent(this, FirstActivity::class.java)
             startActivity(intent)
             finish()
         }

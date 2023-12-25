@@ -1,4 +1,4 @@
-package com.ozcanbayram.gezle
+package com.ozcanbayram.gezle.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +20,7 @@ class FirstActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.gezle.setOnClickListener {
-            val intent = Intent(this,Welcome::class.java)
+            val intent = Intent(this, Welcome::class.java)
             startActivity(intent)
         }
 
@@ -28,7 +28,7 @@ class FirstActivity : AppCompatActivity() {
 
         val currentUser = auth.currentUser
         if(currentUser!=null){
-            val  intent = Intent(this,MainActivity::class.java)
+            val  intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
