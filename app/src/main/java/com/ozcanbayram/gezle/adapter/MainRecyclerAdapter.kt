@@ -28,6 +28,7 @@ class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView
         holder.binding.textView7.text = postList.get(position).ad_soyad
         holder.binding.textView.text = postList.get(position).place_name
         holder.binding.textView8.text = postList.get(position).comment
+        holder.binding.textView6.text = postList.get(position).email
     }
 
 }
