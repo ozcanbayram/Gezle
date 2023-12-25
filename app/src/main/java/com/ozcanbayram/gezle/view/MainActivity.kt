@@ -12,6 +12,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.ozcanbayram.gezle.R
 import com.ozcanbayram.gezle.adapter.MainRecyclerAdapter
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun getData(){
-        db.collection("Posts").addSnapshotListener { value, error ->
+        db.collection("Posts").orderBy("time", Query.Direction.DESCENDING).addSnapshotListener { value, error -> //Postları al ve en son en üstte olsun.
             if(error != null){
                 Toast.makeText(this, error.localizedMessage,Toast.LENGTH_LONG).show()
             }else{
@@ -62,6 +63,9 @@ class MainActivity : AppCompatActivity() {
                     if(!value.isEmpty){
 
                         val documents = value.documents
+
+                        postArrayList.clear() //Diziyi temizlemek için
+
                         for (document in documents){
 
                             val downloadUrl = document.get("downloadUrl") as String
