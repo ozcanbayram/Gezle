@@ -1,11 +1,13 @@
 package com.ozcanbayram.gezle.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ozcanbayram.gezle.databinding.RecyclerRowBinding
 import com.ozcanbayram.gezle.model.Post
+import com.ozcanbayram.gezle.view.MapsActivity
 import com.squareup.picasso.Picasso
 
 class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView.Adapter<MainRecyclerAdapter.MainRecyclerHolder>() {
@@ -32,6 +34,8 @@ class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView
 
         holder.binding.showLocation.setOnClickListener {
 
+            val intentForGoLocationsDetails = Intent(holder.itemView.context, MapsActivity::class.java)
+            holder.itemView.context.startActivity(intentForGoLocationsDetails)
         }
     }
 

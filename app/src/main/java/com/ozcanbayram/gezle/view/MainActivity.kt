@@ -45,11 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         getData()
 
-        binding.imageButton.setOnClickListener {
-            val intent = Intent(this, MapsActivity::class.java)
-            startActivity(intent)
-        }
-
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         mainRecyclerAdapter = MainRecyclerAdapter(postArrayList)
         binding.recyclerView.adapter = mainRecyclerAdapter
