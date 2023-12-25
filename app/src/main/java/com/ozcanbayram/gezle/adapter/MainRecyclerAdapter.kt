@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ozcanbayram.gezle.databinding.RecyclerRowBinding
 import com.ozcanbayram.gezle.model.Post
+import com.squareup.picasso.Picasso
 
 class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView.Adapter<MainRecyclerAdapter.MainRecyclerHolder>() {
 
@@ -23,7 +24,7 @@ class MainRecyclerAdapter(private val postList : ArrayList<Post>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: MainRecyclerHolder, position: Int) {
-        holder.binding.recyclerViewRowView
+        Picasso.get().load(postList.get(position).downloadUrl).into(holder.binding.imageView4)
         holder.binding.textView7.text = postList.get(position).ad_soyad
         holder.binding.textView.text = postList.get(position).place_name
         holder.binding.textView8.text = postList.get(position).comment
