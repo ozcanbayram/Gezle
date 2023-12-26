@@ -91,15 +91,15 @@ class Details : AppCompatActivity() {
 
         }else{
 
-            if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED){
-                if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_MEDIA_IMAGES)){
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
                     Snackbar.make(view,"Görsel eklemek için galeri izni gerekli.",Snackbar.LENGTH_INDEFINITE).setAction("İzin ver"){
                         //Request Permission
-                        permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                     }.show()
                 }else{
                     //Request Permission
-                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             }else{
                 //Permission Granted

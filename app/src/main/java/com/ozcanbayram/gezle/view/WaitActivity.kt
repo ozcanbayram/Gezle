@@ -17,7 +17,7 @@ class WaitActivity : AppCompatActivity() {
         setContentView(view)
 
         // 3 saniye sayma işlemini başlat
-        val sayac = object : CountDownTimer(3000, 1000) {
+        val sayac = object : CountDownTimer(2000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 // Sayma işlemi devam ediyor
             }
