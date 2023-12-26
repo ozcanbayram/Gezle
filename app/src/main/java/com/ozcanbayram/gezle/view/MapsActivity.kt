@@ -48,6 +48,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     private var selectedLatitude : Double? = null
     private var selectedLongitude : Double? = null
 
+    private var latFromMain : String? = null
+    private var longFromMain : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
@@ -85,6 +88,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
             binding.yerIsmi.visibility = View.GONE
             // Yer ismini yazdır --> binding.textView4.text=
             //Go to location and add a marker
+            val placeNameFromMain = intetn.getStringExtra("place")
+            binding.textView4.text = placeNameFromMain
+            latFromMain = intent.getStringExtra("lat")
+            longFromMain = intent.getStringExtra("long")
         }
 
     }
@@ -93,73 +100,87 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         mMap = googleMap
         mMap.setOnMapLongClickListener(this) //Harita ile uzun tıklama OnMapLongClickListener arasındaki bağlantı.
 
+        val intetn = intent
+        val info = intent.getStringExtra("info")
+        if(info.equals("old")){
+            //Old post / coming from MainActivity
+            val placeNameFromMain = intetn.getStringExtra("place")
+            val oldLocation = LatLng(latFromMain!!.toDouble(),longFromMain!!.toDouble()) as LatLng
+            mMap.addMarker(MarkerOptions().position(oldLocation).title(placeNameFromMain))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(oldLocation,15f))
 
-        //LocationManager tanımlama. getSystemService ile androidin sistem servislerine ulaşabiliriz.
-        locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager//Casting işlemi (as LocationManager ile döndürülecek şeyden emin olduğumuzu belirttik.
-        //locationListener kullanma
-        locationListener = object : LocationListener { //Oluşturulan obje üzerinden işlemler yapılır. gerekli ögeler iplement edilmelidir.
-            override fun onLocationChanged(location: Location) { //Konum değiştiği zaman bize verilecek location(içerisinde Location tutan parametre)
-                //Bu metodu tanımladıktan sonra kullanabilmek için kullanıcıdan konum izni almalıyız.
-                //Need Permission
 
-                trackBoolean = sharedPrefereneces.getBoolean("trackBoolean",false)
-                if(!trackBoolean!!){
-                    val userLocation = LatLng(location.latitude,location.longitude)
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,15f)) //sürekli onLocationChanged çağrılırsa haritada rahat gezemeyiz
-                    //bu yüzden sharedPreferences kullanarak bunun sadece 1 kez çağrılmasını sağlayabiliriz.
-                    sharedPrefereneces.edit().putBoolean("trackBoolean",true).apply() //TrackBoolean artık true olur ve bir daha çalışmaz
+        }else {
+
+            //LocationManager tanımlama. getSystemService ile androidin sistem servislerine ulaşabiliriz.
+            locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager//Casting işlemi (as LocationManager ile döndürülecek şeyden emin olduğumuzu belirttik.
+            //locationListener kullanma
+            locationListener = object : LocationListener { //Oluşturulan obje üzerinden işlemler yapılır. gerekli ögeler iplement edilmelidir.
+                override fun onLocationChanged(location: Location) { //Konum değiştiği zaman bize verilecek location(içerisinde Location tutan parametre)
+                    //Bu metodu tanımladıktan sonra kullanabilmek için kullanıcıdan konum izni almalıyız.
+                    //Need Permission
+
+                    trackBoolean = sharedPrefereneces.getBoolean("trackBoolean",false)
+                    if(!trackBoolean!!){
+                        val userLocation = LatLng(location.latitude,location.longitude)
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,15f)) //sürekli onLocationChanged çağrılırsa haritada rahat gezemeyiz
+                        //bu yüzden sharedPreferences kullanarak bunun sadece 1 kez çağrılmasını sağlayabiliriz.
+                        sharedPrefereneces.edit().putBoolean("trackBoolean",true).apply() //TrackBoolean artık true olur ve bir daha çalışmaz
+                    }
+
+
                 }
-                
 
+
+
+
+
+                //Bazı cihazlardaki bugları engellemek için aşağıdaki metodu genellikle tanımlamamızda fayda vardır.
+                /*override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+                    super.onStatusChanged(provider, status, extras)
+                }*/
             }
 
 
 
-
-
-            //Bazı cihazlardaki bugları engellemek için aşağıdaki metodu genellikle tanımlamamızda fayda vardır.
-            /*override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-                super.onStatusChanged(provider, status, extras)
-            }*/
-        }
-
-
-
-        //İzin Kontrol: Check Permission:
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            //Permission Denied (Request permission)
-            //Kullanıcıdan izin alınmalıdır. Neden izin istediğimizi söylemeli ve izni istemeliyiz.
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
-                Snackbar.make(binding.root,"Permission needed for location and use the GEZLE application",Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Give Permission"){
-                        //Request Permission   (izin istemek için ActivityResultLauncher kullanılır)
-                        //İzin istemek için aşağıda oluşturduğumuz permissionlauncher'i kullanırız:
-                        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                    }.show()
+            //İzin Kontrol: Check Permission:
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                //Permission Denied (Request permission)
+                //Kullanıcıdan izin alınmalıdır. Neden izin istediğimizi söylemeli ve izni istemeliyiz.
+                if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                    Snackbar.make(binding.root,"Permission needed for location and use the GEZLE application",Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Give Permission"){
+                            //Request Permission   (izin istemek için ActivityResultLauncher kullanılır)
+                            //İzin istemek için aşağıda oluşturduğumuz permissionlauncher'i kullanırız:
+                            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                        }.show()
+                }else{
+                    //Request Permission
+                    //Request Permission   (izin istemek için ActivityResultLauncher kullanılır)
+                    //İzin istemek için aşağıda oluşturduğumuz permissionlauncher'i kullanırız:
+                    permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
             }else{
-                //Request Permission
-                //Request Permission   (izin istemek için ActivityResultLauncher kullanılır)
-                //İzin istemek için aşağıda oluşturduğumuz permissionlauncher'i kullanırız:
-                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-        }else{
-            //Permission Granted
+                //Permission Granted
 
-            //Konum güncellemelerini alalım:
-            //Kod amaçları: [locationManager: tanımlanan konum yöneticisini çağır].[requestLocationUpdate: Konum güncellemelerini al]([LocationManager:
-            // konum yöneticisi sınıfı ile provider'i bellirt. yani konumu hangi sağlayıcıyla alacağını belirt].[GPS_PROVIDER:Konumu GPS sağlayıcısından al]
-            // kaç saniyede bir  konum güncellemesini alacağını milisaniy cinsinden belirt, kaç metreede bir alınacağını float cinsinden belirt.,
-            // [locationListener: buradan gelen verileri global tanımlı konum dinleyicisine ata(Yuakrıda kullanılan locationListener)]) -->
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0f,locationListener) //needing location permission
+                //Konum güncellemelerini alalım:
+                //Kod amaçları: [locationManager: tanımlanan konum yöneticisini çağır].[requestLocationUpdate: Konum güncellemelerini al]([LocationManager:
+                // konum yöneticisi sınıfı ile provider'i bellirt. yani konumu hangi sağlayıcıyla alacağını belirt].[GPS_PROVIDER:Konumu GPS sağlayıcısından al]
+                // kaç saniyede bir  konum güncellemesini alacağını milisaniy cinsinden belirt, kaç metreede bir alınacağını float cinsinden belirt.,
+                // [locationListener: buradan gelen verileri global tanımlı konum dinleyicisine ata(Yuakrıda kullanılan locationListener)]) -->
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0f,locationListener) //needing location permission
 
-            //Kullanıcının son konumunu alma
-            val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (lastLocation != null){
-                val lastUserLocation = LatLng(lastLocation.latitude,lastLocation.longitude)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastUserLocation,15f))
+                //Kullanıcının son konumunu alma
+                val lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                if (lastLocation != null){
+                    val lastUserLocation = LatLng(lastLocation.latitude,lastLocation.longitude)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastUserLocation,15f))
+                }
+                mMap.isMyLocationEnabled = true //Konumum alındı mı doğrulaması
             }
-            mMap.isMyLocationEnabled = true //Konumum alındı mı doğrulaması
+
         }
+
 
 
 
@@ -219,6 +240,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         //Global tanımlı olan değişkenlere uzun tıklayarak kaydetmek istediğimiz konumun enlem boylamını verelim:
         selectedLatitude = p0.latitude
         selectedLongitude = p0.longitude
+
+
     }
 
 

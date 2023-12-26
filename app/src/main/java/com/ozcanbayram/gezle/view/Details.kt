@@ -37,7 +37,7 @@ class Details : AppCompatActivity() {
     private lateinit var firestore : FirebaseFirestore
     private lateinit var storage : FirebaseStorage
 
-    //For take latitude and longitude from DetailsActivity
+    //For take latitude and longitude from MapsActivity
     var latitudeInfo : String? = null
     var longitudeInfo : String? = null
     var placeName : String? = null
