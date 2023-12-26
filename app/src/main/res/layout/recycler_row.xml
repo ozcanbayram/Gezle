@@ -26,6 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ad Soyad"
+                    android:textColor="@color/black"
                     android:textSize="25sp" />
 
                 <!-- Email -->
@@ -52,6 +53,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Yer ismi"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/black"
                     android:textSize="23sp" />
 
                 <!-- Açıklama -->
@@ -60,7 +63,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Açıklama"
-                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
                     android:layout_marginBottom="8dp"/>
 
                 <Button
