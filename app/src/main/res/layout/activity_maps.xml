@@ -23,10 +23,9 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="418dp"
-        android:layout_height="173dp"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
         android:background="#CFF8FA"
-
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintHorizontal_bias="1.0"
@@ -36,9 +35,11 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Konum seçmek için basılı tut."
+        android:textColor="#000000"
+        android:textSize="18sp"
+        map:layout_constraintBottom_toTopOf="@+id/yerIsmi"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintHorizontal_bias="0.497"
         map:layout_constraintStart_toStartOf="parent"
@@ -49,33 +50,34 @@
         android:layout_width="265dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:background="#fff"
         android:ems="10"
         android:gravity="center"
         android:hint="Yer ismi"
         android:inputType="text"
         android:onClick="yer_ismi_gonder"
+        map:layout_constraintBottom_toBottomOf="@+id/view"
         map:layout_constraintEnd_toStartOf="@+id/ilerle"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/textView4" />
+        map:layout_constraintHorizontal_bias="0.377"
+        map:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/ilerle"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:background="#00E1EF"
         android:foregroundGravity="center"
         android:onClick="ilerle"
+        map:layout_constraintBottom_toBottomOf="parent"
+
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintHorizontal_bias="0.954"
-
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/textView4"
         map:srcCompat="@android:drawable/ic_menu_send" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
