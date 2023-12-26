@@ -169,6 +169,8 @@ class Details : AppCompatActivity() {
 
                         firestore.collection("Posts").add(postMap).addOnSuccessListener {
 
+                            val intent = Intent(this@Details,WaitActivity::class.java)
+                            startActivity(intent)
                             finish()
 
                         }.addOnFailureListener {
