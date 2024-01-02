@@ -81,4 +81,16 @@
         app:layout_constraintStart_toStartOf="@+id/imageView8"
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
+    <TextView
+        android:id="@+id/waitText"
+        android:layout_width="wrap_content"
+        android:textSize="22sp"
+        android:layout_height="wrap_content"
+        android:text="Lütfen bekleyin..."
+        app:layout_constraintBottom_toBottomOf="@+id/gezle"
+        app:layout_constraintEnd_toEndOf="@+id/gezle"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="@+id/gezle"
+        app:layout_constraintTop_toTopOf="@+id/gezle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

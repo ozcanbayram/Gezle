@@ -66,6 +66,8 @@ class Details : AppCompatActivity() {
         firestore = Firebase.firestore
         storage = Firebase.storage
 
+        binding.gezle.visibility = View.VISIBLE
+
     }
 
     fun select_image(view : View){
@@ -138,6 +140,8 @@ class Details : AppCompatActivity() {
 
 
     fun share(view : View){
+
+        binding.gezle.visibility = View.INVISIBLE
 
         //universal unique id (Random isimler üretmek için)
         val uuid = UUID.randomUUID()
