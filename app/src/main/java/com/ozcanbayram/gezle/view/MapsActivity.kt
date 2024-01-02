@@ -71,11 +71,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         selectedLongitude=0.0
 
         binding.ilerle.setOnClickListener {
-            val intent = Intent(this, Details::class.java)
-            intent.putExtra("place_name",binding.yerIsmi.text.toString()) //Girilen yer ismini detaylar sayfasına göndermek.
-            intent.putExtra("enlem",selectedLatitude.toString())
-            intent.putExtra("boylam",selectedLongitude.toString())
-            startActivity(intent)
+
+            if(binding.yerIsmi.text.isEmpty() || selectedLongitude ==0.0 || selectedLatitude == 0.0){
+                Toast.makeText(this,"Gezlemek için lütfen konum seçin ve konumun adını girin.",Toast.LENGTH_LONG).show()
+            }
+            else{
+                val intent = Intent(this, Details::class.java)
+                intent.putExtra("place_name",binding.yerIsmi.text.toString()) //Girilen yer ismini detaylar sayfasına göndermek.
+                intent.putExtra("enlem",selectedLatitude.toString())
+                intent.putExtra("boylam",selectedLongitude.toString())
+                startActivity(intent)
+            }
         }
 
         val intetn = intent

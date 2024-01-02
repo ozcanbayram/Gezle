@@ -142,7 +142,7 @@ class Details : AppCompatActivity() {
     fun share(view : View){
 
         if(selectedPicture == null || binding.aciklama.text == null){
-            Toast.makeText(this,"Lütfen boş alan bırakmayınız.",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Lütfen bir fotoğraf seçiniz ve boş alan bırakmayınız.",Toast.LENGTH_LONG).show()
         }else{
             binding.gezle.visibility = View.INVISIBLE
 
