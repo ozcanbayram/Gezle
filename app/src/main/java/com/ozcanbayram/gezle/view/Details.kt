@@ -141,53 +141,55 @@ class Details : AppCompatActivity() {
 
     fun share(view : View){
 
-        binding.gezle.visibility = View.INVISIBLE
+        if(selectedPicture == null || binding.aciklama.text == null){
+            Toast.makeText(this,"Lütfen boş alan bırakmayınız.",Toast.LENGTH_LONG).show()
+        }else{
+            binding.gezle.visibility = View.INVISIBLE
 
-        //universal unique id (Random isimler üretmek için)
-        val uuid = UUID.randomUUID()
-        val imageName = "$uuid.jpg"
+            //universal unique id (Random isimler üretmek için)
+            val uuid = UUID.randomUUID()
+            val imageName = "$uuid.jpg"
 
-        val reference = storage.reference
-        val imageReferance = reference.child("images").child(imageName)
+            val reference = storage.reference
+            val imageReferance = reference.child("images").child(imageName)
 
-        if(selectedPicture != null){
-            imageReferance.putFile(selectedPicture!!).addOnSuccessListener {
-                //Download Url -> Firestore (Burada paylaşım yapan kişinin verilreini Firestore'a ekleriz.)
+            if(selectedPicture != null){
+                imageReferance.putFile(selectedPicture!!).addOnSuccessListener {
+                    //Download Url -> Firestore (Burada paylaşım yapan kişinin verilreini Firestore'a ekleriz.)
 
-                val uploadPictureReferance = storage.reference.child("images").child(imageName) //Yüklenen fotoğrafı indirmek için bir referans.
-                uploadPictureReferance.downloadUrl.addOnSuccessListener {
-                    val downloadUrl = it.toString() //image'i indirdi ve stringe çevirdi
-                    if(auth.currentUser != null){
-                        val postMap = HashMap<String, Any>() //Post bilgilerini bir hashmap içinde tutalım.
-                        postMap.put("downloadUrl",downloadUrl)
-                        postMap.put("email",auth.currentUser!!.email!!)
-                        //buraya isim soyisim de eklenecek ****
-                        postMap.put("ad_soyad",auth.currentUser!!.displayName.toString())
-                        postMap.put("comment",binding.aciklama.text.toString())
-                        postMap.put("latitudeInfo",latitudeInfo.toString())
-                        postMap.put("longitudeInfo",longitudeInfo.toString())
-                        postMap.put("place_name",placeName.toString())
-                        postMap.put("time",Timestamp.now())
+                    val uploadPictureReferance = storage.reference.child("images").child(imageName) //Yüklenen fotoğrafı indirmek için bir referans.
+                    uploadPictureReferance.downloadUrl.addOnSuccessListener {
+                        val downloadUrl = it.toString() //image'i indirdi ve stringe çevirdi
+                        if(auth.currentUser != null){
+                            val postMap = HashMap<String, Any>() //Post bilgilerini bir hashmap içinde tutalım.
+                            postMap.put("downloadUrl",downloadUrl)
+                            postMap.put("email",auth.currentUser!!.email!!)
+                            //buraya isim soyisim de eklenecek ****
+                            postMap.put("ad_soyad",auth.currentUser!!.displayName.toString())
+                            postMap.put("comment",binding.aciklama.text.toString())
+                            postMap.put("latitudeInfo",latitudeInfo.toString())
+                            postMap.put("longitudeInfo",longitudeInfo.toString())
+                            postMap.put("place_name",placeName.toString())
+                            postMap.put("time",Timestamp.now())
 
-                        //verileri aldık ve şimdi veritananına koyalım:
+                            //verileri aldık ve şimdi veritananına koyalım:
 
-                        firestore.collection("Posts").add(postMap).addOnSuccessListener {
+                            firestore.collection("Posts").add(postMap).addOnSuccessListener {
 
-                            val intent = Intent(this@Details,WaitActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                                val intent = Intent(this@Details,WaitActivity::class.java)
+                                startActivity(intent)
+                                finish()
 
-                        }.addOnFailureListener {
-                            Toast.makeText(this@Details,it.localizedMessage,Toast.LENGTH_LONG).show()
+                            }.addOnFailureListener {
+                                Toast.makeText(this@Details,it.localizedMessage,Toast.LENGTH_LONG).show()
+                            }
                         }
                     }
-                }
 
-            }.addOnFailureListener {
-                Toast.makeText(this@Details,it.localizedMessage,Toast.LENGTH_LONG).show()
+                }.addOnFailureListener {
+                    Toast.makeText(this@Details,it.localizedMessage,Toast.LENGTH_LONG).show()
+                }
             }
         }
-
     }
-
 }
