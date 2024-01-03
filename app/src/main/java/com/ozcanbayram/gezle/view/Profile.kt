@@ -35,49 +35,62 @@ class Profile : AppCompatActivity() {
         profilePostArrayList = ArrayList<ProfilePost>()
 
         getData()
+
+
     }
 
-    private fun getData(){
-        db.collection("Posts").orderBy("time", Query.Direction.DESCENDING).addSnapshotListener { value, error -> //Postları al ve en son en üstte olsun.
-            if(error != null){
-                Toast.makeText(this, error.localizedMessage, Toast.LENGTH_LONG).show()
-            }else{
-                if(value != null){
-                    if(!value.isEmpty){
+    private fun getData() {
 
-                        val documents = value.documents
 
-                        profilePostArrayList.clear() //Diziyi temizlemek için
+        val currentsuer = auth.currentUser
+        if (currentsuer != null) {
+            val email = currentsuer.email
 
-                        for (document in documents){
+            val query = db.collection("Posts")
+                .orderBy("time", Query.Direction.DESCENDING)
+                .whereEqualTo("email", email)
 
-                            val downloadUrl = document.get("downloadUrl") as String
-                            val email = document.get("email") as String
-                            val ad_soyad = document.get("ad_soyad") as String
-                            val comment = document.get("comment") as String
-                            val latitudeInfo = document.get("latitudeInfo") as String
-                            val longitudeInfo = document.get("longitudeInfo") as String
-                            val place_name = document.get("place_name") as String
+            query.addSnapshotListener { value, error -> //Postları al ve en son en üstte olsun.
+                    if (error != null) {
+                        //Toast.makeText(this, error.localizedMessage, Toast.LENGTH_LONG).show()
+                    } else {
+                        if (value != null) {
+                            if (!value.isEmpty) {
 
-                            val post = ProfilePost(downloadUrl,email,ad_soyad,comment,latitudeInfo,longitudeInfo,place_name)
-                            profilePostArrayList.add(post)
+                                val documents = value.documents
 
-                            println("URL: " + downloadUrl)
-                            println("E-Posta: " + email)
-                            println("Ad Soyad: " + ad_soyad)
-                            println("Yorum: " + comment)
-                            println("Enlem: " + latitudeInfo)
-                            println("Boylam: " + longitudeInfo)
-                            println("Yer ismi: " + place_name)
+                                profilePostArrayList.clear() //Diziyi temizlemek için
 
+                                for (document in documents) {
+
+                                    val downloadUrl = document.get("downloadUrl") as String
+                                    val email = document.get("email") as String
+                                    val ad_soyad = document.get("ad_soyad") as String
+                                    val comment = document.get("comment") as String
+                                    val latitudeInfo = document.get("latitudeInfo") as String
+                                    val longitudeInfo = document.get("longitudeInfo") as String
+                                    val place_name = document.get("place_name") as String
+
+                                    val post = ProfilePost(
+                                        downloadUrl,
+                                        email,
+                                        ad_soyad,
+                                        comment,
+                                        latitudeInfo,
+                                        longitudeInfo,
+                                        place_name
+                                    )
+                                    profilePostArrayList.add(post)
+
+                                    binding.textView.text = downloadUrl + email + ad_soyad + "\n" + comment + latitudeInfo + longitudeInfo + place_name
+
+                                }
+
+                                //mainRecyclerAdapter.notifyDataSetChanged() //Veriler güncellendi ve yenilen anlamına gelir.
+                            }
                         }
-
-                        //mainRecyclerAdapter.notifyDataSetChanged() //Veriler güncellendi ve yenilen anlamına gelir.
-
                     }
                 }
-            }
         }
     }
-
 }
