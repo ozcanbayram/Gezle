@@ -13,5 +13,10 @@ class Profile : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val intentForName = intent
+        var ad_soyad = intentForName.getStringExtra("ad_soyad")
+
+        binding.textView.text = ad_soyad
     }
 }
