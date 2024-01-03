@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
     //For Adapter
     private lateinit var mainRecyclerAdapter : MainRecyclerAdapter
 
-    private var ad_soyad : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -68,13 +67,13 @@ class MainActivity : AppCompatActivity() {
 
                             val downloadUrl = document.get("downloadUrl") as String
                             val email = document.get("email") as String
-                            ad_soyad = document.get("ad_soyad") as String
+                            val ad_soyad = document.get("ad_soyad") as String
                             val comment = document.get("comment") as String
                             val latitudeInfo = document.get("latitudeInfo") as String
                             val longitudeInfo = document.get("longitudeInfo") as String
                             val place_name = document.get("place_name") as String
 
-                            val post = Post(downloadUrl,email,ad_soyad!!,comment,latitudeInfo,longitudeInfo,place_name)
+                            val post = Post(downloadUrl,email,ad_soyad,comment,latitudeInfo,longitudeInfo,place_name)
                             postArrayList.add(post)
 
                             /*
@@ -119,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         }
         if(item.itemId == R.id.profile){
             val intent = Intent(this,Profile::class.java)
-            intent.putExtra("ad_soyad",ad_soyad)
+            //intent.putExtra("ad_soyad",ad_soyad)
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)

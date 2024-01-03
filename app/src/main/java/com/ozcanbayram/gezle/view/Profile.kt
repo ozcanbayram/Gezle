@@ -2,21 +2,82 @@ package com.ozcanbayram.gezle.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.firestore
 import com.ozcanbayram.gezle.R
 import com.ozcanbayram.gezle.databinding.ActivityLoginBinding
 import com.ozcanbayram.gezle.databinding.ActivityProfileBinding
+import com.ozcanbayram.gezle.model.Post
+import com.ozcanbayram.gezle.model.ProfilePost
 
 class Profile : AppCompatActivity() {
     private lateinit var binding : ActivityProfileBinding
+    private lateinit var db : FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private lateinit var profilePostArrayList : ArrayList<ProfilePost>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        val intentForName = intent
-        var ad_soyad = intentForName.getStringExtra("ad_soyad")
+        /*val intentForName = intent
+        var ad_soyad = intentForName.getStringExtra("ad_soyad")*/
 
-        binding.textView.text = ad_soyad
+        db = Firebase.firestore
+        auth = Firebase.auth
+
+        profilePostArrayList = ArrayList<ProfilePost>()
+
+        getData()
     }
+
+    private fun getData(){
+        db.collection("Posts").orderBy("time", Query.Direction.DESCENDING).addSnapshotListener { value, error -> //Postları al ve en son en üstte olsun.
+            if(error != null){
+                Toast.makeText(this, error.localizedMessage, Toast.LENGTH_LONG).show()
+            }else{
+                if(value != null){
+                    if(!value.isEmpty){
+
+                        val documents = value.documents
+
+                        profilePostArrayList.clear() //Diziyi temizlemek için
+
+                        for (document in documents){
+
+                            val downloadUrl = document.get("downloadUrl") as String
+                            val email = document.get("email") as String
+                            val ad_soyad = document.get("ad_soyad") as String
+                            val comment = document.get("comment") as String
+                            val latitudeInfo = document.get("latitudeInfo") as String
+                            val longitudeInfo = document.get("longitudeInfo") as String
+                            val place_name = document.get("place_name") as String
+
+                            val post = ProfilePost(downloadUrl,email,ad_soyad,comment,latitudeInfo,longitudeInfo,place_name)
+                            profilePostArrayList.add(post)
+
+                            println("URL: " + downloadUrl)
+                            println("E-Posta: " + email)
+                            println("Ad Soyad: " + ad_soyad)
+                            println("Yorum: " + comment)
+                            println("Enlem: " + latitudeInfo)
+                            println("Boylam: " + longitudeInfo)
+                            println("Yer ismi: " + place_name)
+
+                        }
+
+                        //mainRecyclerAdapter.notifyDataSetChanged() //Veriler güncellendi ve yenilen anlamına gelir.
+
+                    }
+                }
+            }
+        }
+    }
+
 }
