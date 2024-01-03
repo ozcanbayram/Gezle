@@ -1,5 +1,6 @@
 package com.ozcanbayram.gezle.view
 
+import ProfilePost
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -16,7 +17,7 @@ import com.ozcanbayram.gezle.adapter.ProfileRecyclerAdapter
 import com.ozcanbayram.gezle.databinding.ActivityLoginBinding
 import com.ozcanbayram.gezle.databinding.ActivityProfileBinding
 import com.ozcanbayram.gezle.model.Post
-import com.ozcanbayram.gezle.model.ProfilePost
+
 
 class Profile : AppCompatActivity() {
     private lateinit var binding : ActivityProfileBinding
@@ -69,7 +70,7 @@ class Profile : AppCompatActivity() {
                                 profilePostArrayList.clear() //Diziyi temizlemek için
 
                                 for (document in documents) {
-
+                                    val id = document.id //Kimliği al
                                     val downloadUrl = document.get("downloadUrl") as String
                                     val email = document.get("email") as String
                                     val ad_soyad = document.get("ad_soyad") as String
@@ -79,6 +80,7 @@ class Profile : AppCompatActivity() {
                                     val place_name = document.get("place_name") as String
 
                                     val post = ProfilePost(
+                                        id ,
                                         downloadUrl,
                                         email,
                                         ad_soyad,
