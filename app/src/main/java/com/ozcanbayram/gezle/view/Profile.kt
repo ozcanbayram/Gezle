@@ -3,6 +3,7 @@ package com.ozcanbayram.gezle.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -10,6 +11,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.ozcanbayram.gezle.R
+import com.ozcanbayram.gezle.adapter.MainRecyclerAdapter
+import com.ozcanbayram.gezle.adapter.ProfileRecyclerAdapter
 import com.ozcanbayram.gezle.databinding.ActivityLoginBinding
 import com.ozcanbayram.gezle.databinding.ActivityProfileBinding
 import com.ozcanbayram.gezle.model.Post
@@ -20,6 +23,7 @@ class Profile : AppCompatActivity() {
     private lateinit var db : FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var profilePostArrayList : ArrayList<ProfilePost>
+    private lateinit var profileRecyclerAdapter: ProfileRecyclerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
@@ -36,6 +40,9 @@ class Profile : AppCompatActivity() {
 
         getData()
 
+        binding.recyclerViewForProfile.layoutManager = LinearLayoutManager(this)
+        profileRecyclerAdapter = ProfileRecyclerAdapter(profilePostArrayList)
+        binding.recyclerViewForProfile.adapter = profileRecyclerAdapter
 
     }
 
@@ -86,7 +93,7 @@ class Profile : AppCompatActivity() {
 
                                 }
 
-                                //mainRecyclerAdapter.notifyDataSetChanged() //Veriler güncellendi ve yenilen anlamına gelir.
+                                profileRecyclerAdapter.notifyDataSetChanged() //Veriler güncellendi ve yenilen anlamına gelir.
                             }
                         }
                     }
