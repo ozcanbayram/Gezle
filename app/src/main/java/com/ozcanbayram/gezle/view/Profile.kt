@@ -82,7 +82,7 @@ class Profile : AppCompatActivity() {
                                     )
                                     profilePostArrayList.add(post)
 
-                                    binding.textView.text = downloadUrl + email + ad_soyad + "\n" + comment + latitudeInfo + longitudeInfo + place_name
+                                    //binding.textView.text = downloadUrl + email + ad_soyad + "\n" + comment + latitudeInfo + longitudeInfo + place_name
 
                                 }
 
