@@ -1,6 +1,8 @@
 package com.ozcanbayram.gezle.view
 
 import android.content.Intent
+import android.media.audiofx.BassBoost
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -119,6 +121,12 @@ class MainActivity : AppCompatActivity() {
         if(item.itemId == R.id.profile){
             val intent = Intent(this,Profile::class.java)
             //intent.putExtra("ad_soyad",ad_soyad)
+            startActivity(intent)
+        }
+        if(item.itemId == R.id.notification_permission){
+            val intent = Intent()
+            intent.action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            intent.data = Uri.fromParts("package", packageName, null)
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
