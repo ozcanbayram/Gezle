@@ -1,8 +1,12 @@
 package com.ozcanbayram.gezle.view
 
 import ProfilePost
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Firebase
@@ -45,6 +49,37 @@ class Profile : AppCompatActivity() {
         profileRecyclerAdapter = ProfileRecyclerAdapter(profilePostArrayList)
         binding.recyclerViewForProfile.adapter = profileRecyclerAdapter
 
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean { //Menunyu aktiviteyle bagla
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.menu_for_profile,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean { //Menuden eleman secilirse ne olacak
+        if(item.itemId == R.id.add_place){
+            val intent = Intent(this, MapsActivity::class.java)
+            intent.putExtra("info","new")
+            startActivity(intent)
+        }
+        if(item.itemId == R.id.sign_out){
+            auth.signOut()
+            val intent = Intent(this, FirstActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        if(item.itemId == R.id.main){
+            val intent = Intent(this,MainActivity::class.java)
+            //intent.putExtra("ad_soyad",ad_soyad)
+            startActivity(intent)
+            finish()
+        }
+        if(item.itemId == R.id.notification_permission){
+            val intent = Intent()
+            intent.action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            intent.data = Uri.fromParts("package", packageName, null)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getData() {
