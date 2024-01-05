@@ -7,8 +7,11 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -23,6 +26,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.ozcanbayram.gezle.R
 import com.ozcanbayram.gezle.databinding.ActivityMapsBinding
 
@@ -34,6 +40,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     //İnit the LocationManager and LocationListener
     private lateinit var locationManager : LocationManager
     private lateinit var locationListener : LocationListener
+    //For Firebase
+    private lateinit var auth: FirebaseAuth
 
     //For give permission:
     private lateinit var permissionLauncher : ActivityResultLauncher<String>
@@ -57,7 +65,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         val view = binding.root
         setContentView(view)
 
-
+        auth = Firebase.auth
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -100,6 +108,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
             longFromMain = intent.getStringExtra("long")
         }
 
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean { //Menunyu aktiviteyle bagla
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.menu_for_maps,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean { //Menuden eleman secilirse ne olacak
+        if(item.itemId == R.id.main){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("info","new")
+            startActivity(intent)
+        }
+        if(item.itemId == R.id.sign_out){
+            auth.signOut()
+            val intent = Intent(this, FirstActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        if(item.itemId == R.id.profile){
+            val intent = Intent(this,Profile::class.java)
+            //intent.putExtra("ad_soyad",ad_soyad)
+            startActivity(intent)
+        }
+        if(item.itemId == R.id.notification_permission){
+            val intent = Intent()
+            intent.action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            intent.data = Uri.fromParts("package", packageName, null)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onMapReady(googleMap: GoogleMap) { //Harita hazı olduğunda çalışacak metot.

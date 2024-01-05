@@ -71,7 +71,6 @@ class Profile : AppCompatActivity() {
             val intent = Intent(this,MainActivity::class.java)
             //intent.putExtra("ad_soyad",ad_soyad)
             startActivity(intent)
-            finish()
         }
         if(item.itemId == R.id.notification_permission){
             val intent = Intent()
