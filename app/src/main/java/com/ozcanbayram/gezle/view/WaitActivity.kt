@@ -26,6 +26,7 @@ class WaitActivity : AppCompatActivity() {
                 // Sayma işlemi bitti, başka bir aktiviteye git
                 val intent = Intent(this@WaitActivity, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
         sayac.start()
